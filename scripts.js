@@ -1,8 +1,9 @@
 const yourShip = document.querySelector('.player-shooter');
 const playArea = document.querySelector('#main-play-area');
+const aliensImg = ['/monster-1.png', '/monster-2.png', '/monster-3.png']
 
 function flyAhip(event) {
-    if(event.key === 'ArrawUp') {
+    if(event.key === 'ArrowUp') {
         event.preventDefault();
         moveUp();
     } else if (event.key === 'ArrowDown') {
@@ -28,7 +29,7 @@ function moveUp() {
 
 function moveDown() {
     let topPosition = getComputedStyle(yourShip).getPropertyValue('top');
-    if (ropPosition === "510px") {
+    if (topPosition === "510px") {
         return
     } else {
         let position = parseInt(topPosition);
@@ -56,7 +57,7 @@ function createLaserElement() {
 
 function moveLaser(laser) {
     let laserInterval = setInterval(() => {
-        let xPosition = parseInt(laser.style.left + 'px');
+        let xPosition = parseInt(laser.style.left);
 
         if (xPosition === 340) {
             laser.remove();
@@ -64,6 +65,19 @@ function moveLaser(laser) {
             laser.style.left = `${xPosition + 8}px`;
         }
     }, 10);
+}
+
+function creatAliens() {
+    let newAlien = document.createElement('img');
+    let alienSprite = aliensImg[Math.floor(Math.random() * aliensImg.length)];
+    newAlien.src = alienSprite.src;
+    newAlien.classList.add('alien');
+    newAlien.classList.add('alien-transition');
+    newAlien.style.left = '370px';
+    newAlien.style.top = `${Math.floor(Math.random() * 330) +30}px`;
+    playArea.appendChild(newAlien);
+    moveAlien(newAlien);
+
 }
 
 window.addEventListener('Keydown', flyAhip);
